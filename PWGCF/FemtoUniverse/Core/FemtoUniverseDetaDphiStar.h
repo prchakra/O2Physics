@@ -383,7 +383,7 @@ class FemtoUniverseDetaDphiStar
       // at large tpc radius; asin fails
       if (abs(arg) < 1.0) {
         tmpVec.push_back(phi0 - std::asin(arg));
-        }
+      }
     }
 
   ///  Calculate average phi
@@ -437,7 +437,7 @@ class FemtoUniverseDetaDphiStar
     double afsi1b = deltaphiconstFD * magfield * charge2 * ChosenRadii / part2.pt();
 
     if ((abs(afsi0b) < 1.0) && (abs(afsi1b) < 1.0)) {
-        double dphis = part2.phi() - part1.phi() + TMath::ASin(afsi1b) - TMath::ASin(afsi0b);
+      double dphis = part2.phi() - part1.phi() + TMath::ASin(afsi1b) - TMath::ASin(afsi0b);
     }
   }
 };
