@@ -463,150 +463,150 @@ struct FemtoUniverseProducerTask {
       LOGF(fatal, "Neither processFullData nor processFullMC enabled. Please choose one.");
     }
     if ((doprocessFullData || doprocessTrackPhiData || doprocessTrackData || doprocessTrackV0 || doprocessTrackCascadeData || doprocessTrackD0mesonData || doprocessTrackCentRun2Data || doprocessTrackCentRun3Data || doprocessV0CentRun3Data || doprocessCascadeCentRun3Data || doprocessTrackDataCentPP) == true && (doprocessFullMC || doprocessTrackMC || doprocessTrackMCTruth || doprocessTrackMCGen || doprocessTruthAndFullMC || doprocessFullMCCent || doprocessTrackCentRun3DataMC) == true) {
-    if ((doprocessFullData || doprocessTrackPhiData || doprocessTrackData || doprocessTrackV0 || doprocessTrackCascadeData || doprocessTrackD0mesonData || doprocessTrackCentRun2Data || doprocessTrackV0CentRun2Data || doprocessTrackCentRun3Data || doprocessV0CentRun3Data || doprocessCascadeCentRun3Data || doprocessTrackDataCentPP) == false && (doprocessFullMC || doprocessTrackMC || doprocessTrackMCTruth || doprocessTrackMCGen || doprocessTruthAndFullMC || doprocessFullMCCent) == false) {
-      LOGF(fatal, "Neither processFullData nor processFullMC enabled. Please choose one.");
-    }
-    if ((doprocessFullData || doprocessTrackPhiData || doprocessTrackData || doprocessTrackV0 || doprocessTrackCascadeData || doprocessTrackD0mesonData || doprocessTrackCentRun2Data || doprocessTrackV0CentRun2Data || doprocessTrackCentRun3Data || doprocessV0CentRun3Data || doprocessCascadeCentRun3Data || doprocessTrackDataCentPP) == true && (doprocessFullMC || doprocessTrackMC || doprocessTrackMCTruth || doprocessTrackMCGen || doprocessTruthAndFullMC || doprocessFullMCCent) == true) {
-      LOGF(fatal,
-           "Cannot enable process Data and process MC at the same time. "
-           "Please choose one.");
-    }
-
-    colCuts.setCuts(confEvtZvtx, confEvtTriggerCheck, confEvtTriggerSel, confEvtOfflineCheck, confIsRun3, confCentFT0Min, confCentFT0Max);
-    colCuts.init(&qaRegistry);
-
-    trackCuts.setSelection(confTrkCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
-    trackCuts.setSelection(confTrkPtmin, femto_universe_track_selection::kpTMin, femto_universe_selection::kLowerLimit);
-    trackCuts.setSelection(confTrkPtmax, femto_universe_track_selection::kpTMax, femto_universe_selection::kUpperLimit);
-    trackCuts.setSelection(confTrkEta, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
-    trackCuts.setSelection(confTrkTPCnclsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
-    trackCuts.setSelection(confTrkTPCfCls, femto_universe_track_selection::kTPCfClsMin, femto_universe_selection::kLowerLimit);
-    trackCuts.setSelection(confTrkTPCcRowsMin, femto_universe_track_selection::kTPCcRowsMin, femto_universe_selection::kLowerLimit);
-    trackCuts.setSelection(confTrkTPCsCls, femto_universe_track_selection::kTPCsClsMax, femto_universe_selection::kUpperLimit);
-    trackCuts.setSelection(confTrkITSnclsMin, femto_universe_track_selection::kITSnClsMin, femto_universe_selection::kLowerLimit);
-    trackCuts.setSelection(confTrkITSnclsIbMin, femto_universe_track_selection::kITSnClsIbMin, femto_universe_selection::kLowerLimit);
-    trackCuts.setSelection(confTrkDCAxyMax, femto_universe_track_selection::kDCAxyMax, femto_universe_selection::kAbsUpperLimit);
-    trackCuts.setSelection(confTrkDCAzMax, femto_universe_track_selection::kDCAzMax, femto_universe_selection::kAbsUpperLimit);
-    trackCuts.setSelection(confTrkPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
-    trackCuts.setPIDSpecies(confTrkPIDspecies);
-    trackCuts.setnSigmaPIDOffset(confTrkPIDnSigmaOffsetTPC, confTrkPIDnSigmaOffsetTOF);
-    trackCuts.init<aod::femtouniverseparticle::ParticleType::kTrack, aod::femtouniverseparticle::TrackType::kNoChild, aod::femtouniverseparticle::CutContainerType>(&qaRegistry);
-
-    /// \todo fix how to pass array to setSelection, getRow() passing a
-    /// different type!
-    // v0Cuts.setSelection(ConfV0Selection->getRow(0),
-    // femto_universe_v0_selection::kDecVtxMax, femto_universe_selection::kAbsUpperLimit);
-    if (confIsActivateV0) {
-      // initializing for V0
-      v0Cuts.setSelection(ConfV0Selection.confV0Sign, femto_universe_v0_selection::kV0Sign, femto_universe_selection::kEqual);
-      v0Cuts.setSelection(ConfV0Selection.confV0PtMin, femto_universe_v0_selection::kV0pTMin, femto_universe_selection::kLowerLimit);
-      v0Cuts.setSelection(ConfV0Selection.confV0PtMax, femto_universe_v0_selection::kV0pTMax, femto_universe_selection::kUpperLimit);
-      v0Cuts.setSelection(ConfV0Selection.confV0EtaMax, femto_universe_v0_selection::kV0etaMax, femto_universe_selection::kAbsUpperLimit);
-      v0Cuts.setSelection(ConfV0Selection.confV0DCADaughMax, femto_universe_v0_selection::kV0DCADaughMax, femto_universe_selection::kUpperLimit);
-      v0Cuts.setSelection(ConfV0Selection.confV0CPAMin, femto_universe_v0_selection::kV0CPAMin, femto_universe_selection::kLowerLimit);
-      v0Cuts.setSelection(ConfV0Selection.confV0TranRadMin, femto_universe_v0_selection::kV0TranRadMin, femto_universe_selection::kLowerLimit);
-      v0Cuts.setSelection(ConfV0Selection.confV0TranRadMax, femto_universe_v0_selection::kV0TranRadMax, femto_universe_selection::kUpperLimit);
-      v0Cuts.setSelection(ConfV0Selection.confV0DecVtxMax, femto_universe_v0_selection::kV0DecVtxMax, femto_universe_selection::kUpperLimit);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildDCAMin, femto_universe_track_selection::kDCAMin, femto_universe_selection::kAbsLowerLimit);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildDCAMin, femto_universe_track_selection::kDCAMin, femto_universe_selection::kAbsLowerLimit);
-      v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
-      v0Cuts.setChildPIDSpecies(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildPIDspecies);
-      v0Cuts.setChildPIDSpecies(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildPIDspecies);
-      v0Cuts.init<aod::femtouniverseparticle::ParticleType::kV0, aod::femtouniverseparticle::ParticleType::kV0Child, aod::femtouniverseparticle::CutContainerType>(&qaRegistry);
-      v0Cuts.setInvMassLimits(ConfV0Selection.confV0InvMassLowLimit, ConfV0Selection.confV0InvMassUpLimit);
-
-      v0Cuts.setChildRejectNotPropagatedTracks(femto_universe_v0_selection::kPosTrack, confTrkRejectNotPropagated);
-      v0Cuts.setChildRejectNotPropagatedTracks(femto_universe_v0_selection::kNegTrack, confTrkRejectNotPropagated);
-
-      v0Cuts.setnSigmaPIDOffsetTPC(confTrkPIDnSigmaOffsetTPC);
-      v0Cuts.setChildnSigmaPIDOffset(femto_universe_v0_selection::kPosTrack, confTrkPIDnSigmaOffsetTPC, confTrkPIDnSigmaOffsetTOF);
-      v0Cuts.setChildnSigmaPIDOffset(femto_universe_v0_selection::kNegTrack, confTrkPIDnSigmaOffsetTPC, confTrkPIDnSigmaOffsetTOF);
-
-      if (ConfV0Selection.confV0RejectKaons) {
-        v0Cuts.setKaonInvMassLimits(ConfV0Selection.confV0InvKaonMassLowLimit, ConfV0Selection.confV0InvKaonMassUpLimit);
+      if ((doprocessFullData || doprocessTrackPhiData || doprocessTrackData || doprocessTrackV0 || doprocessTrackCascadeData || doprocessTrackD0mesonData || doprocessTrackCentRun2Data || doprocessTrackV0CentRun2Data || doprocessTrackCentRun3Data || doprocessV0CentRun3Data || doprocessCascadeCentRun3Data || doprocessTrackDataCentPP) == false && (doprocessFullMC || doprocessTrackMC || doprocessTrackMCTruth || doprocessTrackMCGen || doprocessTruthAndFullMC || doprocessFullMCCent) == false) {
+        LOGF(fatal, "Neither processFullData nor processFullMC enabled. Please choose one.");
       }
-      // if (ConfRejectITSHitandTOFMissing) {
-      //   o2PhysicsTrackSelection = new
-      //   TrackSelection(getGlobalTrackSelection());
-      //   o2PhysicsTrackSelection->SetRequireHitsInITSLayers(1, {0, 1, 2, 3});
-      // }
-    }
-
-    if (confIsActivateCascade) {
-      // initializing for cascades
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascSign, femto_universe_cascade_selection::kCascadeSign, femto_universe_selection::kEqual);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascPtMin, femto_universe_cascade_selection::kCascadepTMin, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascPtMax, femto_universe_cascade_selection::kCascadepTMax, femto_universe_selection::kUpperLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascEtaMax, femto_universe_cascade_selection::kCascadeetaMax, femto_universe_selection::kAbsUpperLimit);
-      // v0 child cuts
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascV0DCADaughMax, femto_universe_cascade_selection::kCascadeV0DCADaughMax, femto_universe_selection::kUpperLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascV0CPAMin, femto_universe_cascade_selection::kCascadeV0CPAMin, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascV0TranRadMin, femto_universe_cascade_selection::kCascadeV0TranRadMin, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascV0TranRadMax, femto_universe_cascade_selection::kCascadeV0TranRadMax, femto_universe_selection::kUpperLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascV0DecVtxMax, femto_universe_cascade_selection::kCascadeV0DecVtxMax, femto_universe_selection::kUpperLimit);
-      // cascade cuts
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascDCADaughMax, femto_universe_cascade_selection::kCascadeDCADaughMax, femto_universe_selection::kUpperLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascCPAMin, femto_universe_cascade_selection::kCascadeCPAMin, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascTranRadMin, femto_universe_cascade_selection::kCascadeTranRadMin, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascTranRadMax, femto_universe_cascade_selection::kCascadeTranRadMax, femto_universe_selection::kUpperLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascDecVtxMax, femto_universe_cascade_selection::kCascadeDecVtxMax, femto_universe_selection::kUpperLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascDCAPosToPV, femto_universe_cascade_selection::kCascadeDCAPosToPV, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascDCANegToPV, femto_universe_cascade_selection::kCascadeDCANegToPV, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascDCABachToPV, femto_universe_cascade_selection::kCascadeDCABachToPV, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascDCAV0ToPV, femto_universe_cascade_selection::kCascadeDCAV0ToPV, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascV0MassLowLimit, femto_universe_cascade_selection::kCascadeV0MassMin, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setSelection(ConfCascadeSelection.confCascV0MassUpLimit, femto_universe_cascade_selection::kCascadeV0MassMax, femto_universe_selection::kUpperLimit);
-      // children cuts
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kPosTrack, ConfCascadeSelection.confCascChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kPosTrack, ConfCascadeSelection.confCascChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kPosTrack, ConfCascadeSelection.confCascChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kPosTrack, ConfCascadeSelection.confCascChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kNegTrack, ConfCascadeSelection.confCascChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kNegTrack, ConfCascadeSelection.confCascChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kNegTrack, ConfCascadeSelection.confCascChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kNegTrack, ConfCascadeSelection.confCascChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
-      cascadeCuts.setChildCuts(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
-
-      // TODO
-      cascadeCuts.setChildPIDSpecies(femto_universe_cascade_selection::kPosTrack, ConfV0Selection.confChildPIDspecies);
-      cascadeCuts.setChildPIDSpecies(femto_universe_cascade_selection::kNegTrack, ConfV0Selection.confChildPIDspecies);
-      cascadeCuts.setChildPIDSpecies(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildPIDspecies);
-
-      // check if works correctly for bachelor track
-      cascadeCuts.init<aod::femtouniverseparticle::ParticleType::kCascade, aod::femtouniverseparticle::ParticleType::kV0Child, aod::femtouniverseparticle::ParticleType::kCascadeBachelor, aod::femtouniverseparticle::CutContainerType>(&cascadeQaRegistry, confIsSelectCascOmega);
-      // invmass cuts
-      cascadeCuts.setInvMassLimits(ConfCascadeSelection.confCascInvMassLowLimit, ConfCascadeSelection.confCascInvMassUpLimit);
-
-      if (ConfCascadeSelection.confCascRejectCompetingMass) {
-        cascadeCuts.setCompetingInvMassLimits(ConfCascadeSelection.confCascInvCompetingMassLowLimit, ConfCascadeSelection.confCascInvCompetingMassUpLimit);
+      if ((doprocessFullData || doprocessTrackPhiData || doprocessTrackData || doprocessTrackV0 || doprocessTrackCascadeData || doprocessTrackD0mesonData || doprocessTrackCentRun2Data || doprocessTrackV0CentRun2Data || doprocessTrackCentRun3Data || doprocessV0CentRun3Data || doprocessCascadeCentRun3Data || doprocessTrackDataCentPP) == true && (doprocessFullMC || doprocessTrackMC || doprocessTrackMCTruth || doprocessTrackMCGen || doprocessTruthAndFullMC || doprocessFullMCCent) == true) {
+        LOGF(fatal,
+             "Cannot enable process Data and process MC at the same time. "
+             "Please choose one.");
       }
+
+      colCuts.setCuts(confEvtZvtx, confEvtTriggerCheck, confEvtTriggerSel, confEvtOfflineCheck, confIsRun3, confCentFT0Min, confCentFT0Max);
+      colCuts.init(&qaRegistry);
+
+      trackCuts.setSelection(confTrkCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
+      trackCuts.setSelection(confTrkPtmin, femto_universe_track_selection::kpTMin, femto_universe_selection::kLowerLimit);
+      trackCuts.setSelection(confTrkPtmax, femto_universe_track_selection::kpTMax, femto_universe_selection::kUpperLimit);
+      trackCuts.setSelection(confTrkEta, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
+      trackCuts.setSelection(confTrkTPCnclsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
+      trackCuts.setSelection(confTrkTPCfCls, femto_universe_track_selection::kTPCfClsMin, femto_universe_selection::kLowerLimit);
+      trackCuts.setSelection(confTrkTPCcRowsMin, femto_universe_track_selection::kTPCcRowsMin, femto_universe_selection::kLowerLimit);
+      trackCuts.setSelection(confTrkTPCsCls, femto_universe_track_selection::kTPCsClsMax, femto_universe_selection::kUpperLimit);
+      trackCuts.setSelection(confTrkITSnclsMin, femto_universe_track_selection::kITSnClsMin, femto_universe_selection::kLowerLimit);
+      trackCuts.setSelection(confTrkITSnclsIbMin, femto_universe_track_selection::kITSnClsIbMin, femto_universe_selection::kLowerLimit);
+      trackCuts.setSelection(confTrkDCAxyMax, femto_universe_track_selection::kDCAxyMax, femto_universe_selection::kAbsUpperLimit);
+      trackCuts.setSelection(confTrkDCAzMax, femto_universe_track_selection::kDCAzMax, femto_universe_selection::kAbsUpperLimit);
+      trackCuts.setSelection(confTrkPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
+      trackCuts.setPIDSpecies(confTrkPIDspecies);
+      trackCuts.setnSigmaPIDOffset(confTrkPIDnSigmaOffsetTPC, confTrkPIDnSigmaOffsetTOF);
+      trackCuts.init<aod::femtouniverseparticle::ParticleType::kTrack, aod::femtouniverseparticle::TrackType::kNoChild, aod::femtouniverseparticle::CutContainerType>(&qaRegistry);
+
+      /// \todo fix how to pass array to setSelection, getRow() passing a
+      /// different type!
+      // v0Cuts.setSelection(ConfV0Selection->getRow(0),
+      // femto_universe_v0_selection::kDecVtxMax, femto_universe_selection::kAbsUpperLimit);
+      if (confIsActivateV0) {
+        // initializing for V0
+        v0Cuts.setSelection(ConfV0Selection.confV0Sign, femto_universe_v0_selection::kV0Sign, femto_universe_selection::kEqual);
+        v0Cuts.setSelection(ConfV0Selection.confV0PtMin, femto_universe_v0_selection::kV0pTMin, femto_universe_selection::kLowerLimit);
+        v0Cuts.setSelection(ConfV0Selection.confV0PtMax, femto_universe_v0_selection::kV0pTMax, femto_universe_selection::kUpperLimit);
+        v0Cuts.setSelection(ConfV0Selection.confV0EtaMax, femto_universe_v0_selection::kV0etaMax, femto_universe_selection::kAbsUpperLimit);
+        v0Cuts.setSelection(ConfV0Selection.confV0DCADaughMax, femto_universe_v0_selection::kV0DCADaughMax, femto_universe_selection::kUpperLimit);
+        v0Cuts.setSelection(ConfV0Selection.confV0CPAMin, femto_universe_v0_selection::kV0CPAMin, femto_universe_selection::kLowerLimit);
+        v0Cuts.setSelection(ConfV0Selection.confV0TranRadMin, femto_universe_v0_selection::kV0TranRadMin, femto_universe_selection::kLowerLimit);
+        v0Cuts.setSelection(ConfV0Selection.confV0TranRadMax, femto_universe_v0_selection::kV0TranRadMax, femto_universe_selection::kUpperLimit);
+        v0Cuts.setSelection(ConfV0Selection.confV0DecVtxMax, femto_universe_v0_selection::kV0DecVtxMax, femto_universe_selection::kUpperLimit);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildDCAMin, femto_universe_track_selection::kDCAMin, femto_universe_selection::kAbsLowerLimit);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildDCAMin, femto_universe_track_selection::kDCAMin, femto_universe_selection::kAbsLowerLimit);
+        v0Cuts.setChildCuts(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
+        v0Cuts.setChildPIDSpecies(femto_universe_v0_selection::kPosTrack, ConfV0Selection.confChildPIDspecies);
+        v0Cuts.setChildPIDSpecies(femto_universe_v0_selection::kNegTrack, ConfV0Selection.confChildPIDspecies);
+        v0Cuts.init<aod::femtouniverseparticle::ParticleType::kV0, aod::femtouniverseparticle::ParticleType::kV0Child, aod::femtouniverseparticle::CutContainerType>(&qaRegistry);
+        v0Cuts.setInvMassLimits(ConfV0Selection.confV0InvMassLowLimit, ConfV0Selection.confV0InvMassUpLimit);
+
+        v0Cuts.setChildRejectNotPropagatedTracks(femto_universe_v0_selection::kPosTrack, confTrkRejectNotPropagated);
+        v0Cuts.setChildRejectNotPropagatedTracks(femto_universe_v0_selection::kNegTrack, confTrkRejectNotPropagated);
+
+        v0Cuts.setnSigmaPIDOffsetTPC(confTrkPIDnSigmaOffsetTPC);
+        v0Cuts.setChildnSigmaPIDOffset(femto_universe_v0_selection::kPosTrack, confTrkPIDnSigmaOffsetTPC, confTrkPIDnSigmaOffsetTOF);
+        v0Cuts.setChildnSigmaPIDOffset(femto_universe_v0_selection::kNegTrack, confTrkPIDnSigmaOffsetTPC, confTrkPIDnSigmaOffsetTOF);
+
+        if (ConfV0Selection.confV0RejectKaons) {
+          v0Cuts.setKaonInvMassLimits(ConfV0Selection.confV0InvKaonMassLowLimit, ConfV0Selection.confV0InvKaonMassUpLimit);
+        }
+        // if (ConfRejectITSHitandTOFMissing) {
+        //   o2PhysicsTrackSelection = new
+        //   TrackSelection(getGlobalTrackSelection());
+        //   o2PhysicsTrackSelection->SetRequireHitsInITSLayers(1, {0, 1, 2, 3});
+        // }
+      }
+
+      if (confIsActivateCascade) {
+        // initializing for cascades
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascSign, femto_universe_cascade_selection::kCascadeSign, femto_universe_selection::kEqual);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascPtMin, femto_universe_cascade_selection::kCascadepTMin, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascPtMax, femto_universe_cascade_selection::kCascadepTMax, femto_universe_selection::kUpperLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascEtaMax, femto_universe_cascade_selection::kCascadeetaMax, femto_universe_selection::kAbsUpperLimit);
+        // v0 child cuts
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascV0DCADaughMax, femto_universe_cascade_selection::kCascadeV0DCADaughMax, femto_universe_selection::kUpperLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascV0CPAMin, femto_universe_cascade_selection::kCascadeV0CPAMin, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascV0TranRadMin, femto_universe_cascade_selection::kCascadeV0TranRadMin, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascV0TranRadMax, femto_universe_cascade_selection::kCascadeV0TranRadMax, femto_universe_selection::kUpperLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascV0DecVtxMax, femto_universe_cascade_selection::kCascadeV0DecVtxMax, femto_universe_selection::kUpperLimit);
+        // cascade cuts
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascDCADaughMax, femto_universe_cascade_selection::kCascadeDCADaughMax, femto_universe_selection::kUpperLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascCPAMin, femto_universe_cascade_selection::kCascadeCPAMin, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascTranRadMin, femto_universe_cascade_selection::kCascadeTranRadMin, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascTranRadMax, femto_universe_cascade_selection::kCascadeTranRadMax, femto_universe_selection::kUpperLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascDecVtxMax, femto_universe_cascade_selection::kCascadeDecVtxMax, femto_universe_selection::kUpperLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascDCAPosToPV, femto_universe_cascade_selection::kCascadeDCAPosToPV, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascDCANegToPV, femto_universe_cascade_selection::kCascadeDCANegToPV, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascDCABachToPV, femto_universe_cascade_selection::kCascadeDCABachToPV, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascDCAV0ToPV, femto_universe_cascade_selection::kCascadeDCAV0ToPV, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascV0MassLowLimit, femto_universe_cascade_selection::kCascadeV0MassMin, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setSelection(ConfCascadeSelection.confCascV0MassUpLimit, femto_universe_cascade_selection::kCascadeV0MassMax, femto_universe_selection::kUpperLimit);
+        // children cuts
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kPosTrack, ConfCascadeSelection.confCascChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kPosTrack, ConfCascadeSelection.confCascChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kPosTrack, ConfCascadeSelection.confCascChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kPosTrack, ConfCascadeSelection.confCascChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kNegTrack, ConfCascadeSelection.confCascChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kNegTrack, ConfCascadeSelection.confCascChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kNegTrack, ConfCascadeSelection.confCascChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kNegTrack, ConfCascadeSelection.confCascChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildCharge, femto_universe_track_selection::kSign, femto_universe_selection::kEqual);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildEtaMax, femto_universe_track_selection::kEtaMax, femto_universe_selection::kAbsUpperLimit);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildTPCnClsMin, femto_universe_track_selection::kTPCnClsMin, femto_universe_selection::kLowerLimit);
+        cascadeCuts.setChildCuts(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildPIDnSigmaMax, femto_universe_track_selection::kPIDnSigmaMax, femto_universe_selection::kAbsUpperLimit);
+
+        // TODO
+        cascadeCuts.setChildPIDSpecies(femto_universe_cascade_selection::kPosTrack, ConfV0Selection.confChildPIDspecies);
+        cascadeCuts.setChildPIDSpecies(femto_universe_cascade_selection::kNegTrack, ConfV0Selection.confChildPIDspecies);
+        cascadeCuts.setChildPIDSpecies(femto_universe_cascade_selection::kBachTrack, ConfCascadeSelection.confCascChildPIDspecies);
+
+        // check if works correctly for bachelor track
+        cascadeCuts.init<aod::femtouniverseparticle::ParticleType::kCascade, aod::femtouniverseparticle::ParticleType::kV0Child, aod::femtouniverseparticle::ParticleType::kCascadeBachelor, aod::femtouniverseparticle::CutContainerType>(&cascadeQaRegistry, confIsSelectCascOmega);
+        // invmass cuts
+        cascadeCuts.setInvMassLimits(ConfCascadeSelection.confCascInvMassLowLimit, ConfCascadeSelection.confCascInvMassUpLimit);
+
+        if (ConfCascadeSelection.confCascRejectCompetingMass) {
+          cascadeCuts.setCompetingInvMassLimits(ConfCascadeSelection.confCascInvCompetingMassLowLimit, ConfCascadeSelection.confCascInvCompetingMassUpLimit);
+        }
+      }
+
+      if (confIsActivatePhi) {
+        // initializing for Phi meson
+        phiCuts.init<aod::femtouniverseparticle::ParticleType::kPhi, aod::femtouniverseparticle::ParticleType::kPhiChild, aod::femtouniverseparticle::CutContainerType>(&qaRegistry);
+      }
+
+      mRunNumber = 0;
+      mMagField = 0.0;
+      /// Initializing CCDB
+      ccdb->setURL("http://alice-ccdb.cern.ch");
+      ccdb->setCaching(true);
+      ccdb->setLocalObjectValidityChecking();
+
+      int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+      ccdb->setCreatedNotAfter(now);
     }
-
-    if (confIsActivatePhi) {
-      // initializing for Phi meson
-      phiCuts.init<aod::femtouniverseparticle::ParticleType::kPhi, aod::femtouniverseparticle::ParticleType::kPhiChild, aod::femtouniverseparticle::CutContainerType>(&qaRegistry);
-    }
-
-    mRunNumber = 0;
-    mMagField = 0.0;
-    /// Initializing CCDB
-    ccdb->setURL("http://alice-ccdb.cern.ch");
-    ccdb->setCaching(true);
-    ccdb->setLocalObjectValidityChecking();
-
-    int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-    ccdb->setCreatedNotAfter(now);
-  }
 
   /// Function to retrieve the nominal magnetic field in kG (0.1T) and convert it directly to T
   void getMagneticFieldTesla(aod::BCsWithTimestamps::iterator bc)
