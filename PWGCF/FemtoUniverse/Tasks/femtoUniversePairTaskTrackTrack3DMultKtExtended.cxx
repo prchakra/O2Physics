@@ -584,7 +584,7 @@ struct femtoUniversePairTaskTrackTrack3DMultKtExtended {
 
     bool fillQA = true;
     randgen = new TRandom2(0);
-    
+
     if (ConfIsCent) {
       if (cfgProcessPM) {
         doSameEvent<false>(thegroupPartsOne, thegroupPartsTwo, parts, col.magField(), col.multV0M(), 1, fillQA);
